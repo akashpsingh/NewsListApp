@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">News List</string>
+    <string name="something_went_wrong_please_try_again">Something went wrong, please try again.</string>
+    <string name="try_again">Try Again</string>
+</resources>

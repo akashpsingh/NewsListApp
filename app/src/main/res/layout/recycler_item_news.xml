@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/mp_standard">
+
+    <ImageView
+            android:id="@+id/articleImage"
+            android:layout_width="100dp"
+            android:layout_gravity="center_vertical"
+            tools:src="@drawable/img_placeholder"
+            android:layout_height="100dp"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        <TextView
+                android:id="@+id/articleTitleText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:maxLines="2"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:fontFamily="sans-serif-black"
+                android:ellipsize="end"
+                tools:text="These 20 awesome Cyber Monday deals will finish off your holiday shopping list - Android Central"
+                android:layout_marginStart="@dimen/mp_standard"/>
+
+
+        <TextView
+                android:id="@+id/articleDescriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:maxLines="3"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:fontFamily="sans-serif-light"
+                tools:text="Looking for some great gift ideas? We've compiled 20 of the best Cyber Monday and lingering Black Friday deals to help you finish your holiday shopping list in record time, and with some great prices too."
+                android:layout_marginStart="@dimen/mp_standard"/>
+
+    </LinearLayout>
+</LinearLayout>
