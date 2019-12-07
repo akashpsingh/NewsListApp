@@ -1,18 +1,15 @@
-package com.example.newslist.ui.fragment
+package com.example.newslist.ui.fragment.newslist
 
 import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newslist.R
 import com.example.newslist.di.DIHelper.appComponent
-import com.example.newslist.ui.NewsRecyclerAdapter
-import com.example.newslist.ui.viewmodel.NewsListViewModel
+import com.example.newslist.ui.fragment.BaseFragment
+import com.example.newslist.ui.fragment.newsdetail.NewsWebViewFragment
 import kotlinx.android.synthetic.main.fragment_news_list.*
 import javax.inject.Inject
 
@@ -54,7 +51,8 @@ class NewsListFragment : BaseFragment(), NewsRecyclerAdapter.NewsArticleClickLis
     }
 
     private fun setupRecyclerView() {
-        newsRecyclerAdapter = NewsRecyclerAdapter(this)
+        newsRecyclerAdapter =
+            NewsRecyclerAdapter(this)
         newsRecyclerView.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = newsRecyclerAdapter
@@ -64,7 +62,12 @@ class NewsListFragment : BaseFragment(), NewsRecyclerAdapter.NewsArticleClickLis
     override fun onArticleClicked(url: String) {
         activity?.let {
             it.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, NewsWebViewFragment.newInstance(url), NewsWebViewFragment.TAG)
+                .replace(R.id.fragment_container,
+                    NewsWebViewFragment.newInstance(
+                        url
+                    ),
+                    NewsWebViewFragment.TAG
+                )
                 .addToBackStack(NewsWebViewFragment.TAG)
                 .commit()
         }

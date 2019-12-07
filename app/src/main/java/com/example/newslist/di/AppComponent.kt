@@ -1,8 +1,8 @@
 package com.example.newslist.di
 
 import com.example.newslist.di.module.*
-import com.example.newslist.ui.MainActivity
-import com.example.newslist.ui.fragment.NewsListFragment
+import com.example.newslist.ui.activity.MainActivity
+import com.example.newslist.ui.fragment.newslist.NewsListFragment
 import dagger.Component
 import javax.inject.Singleton
 

@@ -1,7 +1,7 @@
 package com.example.newslist.di.module
 
 import com.example.newslist.repository.NewsListRepository
-import com.example.newslist.ui.viewmodel.NewsListViewModel
+import com.example.newslist.ui.fragment.newslist.NewsListViewModel
 import dagger.Module
 import dagger.Provides
 

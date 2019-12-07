@@ -1,4 +1,4 @@
-package com.example.newslist.ui.fragment
+package com.example.newslist.ui.fragment.newsdetail
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import com.example.newslist.R
+import com.example.newslist.ui.fragment.BaseFragment
 import kotlinx.android.synthetic.main.fragment_news_web_view.*
 
 class NewsWebViewFragment : BaseFragment() {
@@ -50,7 +51,8 @@ class NewsWebViewFragment : BaseFragment() {
         private const val EXTRA_URL = "url"
 
         fun newInstance(url: String): NewsWebViewFragment {
-            return NewsWebViewFragment().apply {
+            return NewsWebViewFragment()
+                .apply {
                 arguments = Bundle().apply {
                     putString(EXTRA_URL, url)
                 }

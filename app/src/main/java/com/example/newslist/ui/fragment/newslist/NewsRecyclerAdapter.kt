@@ -1,4 +1,4 @@
-package com.example.newslist.ui
+package com.example.newslist.ui.fragment.newslist
 
 import android.view.LayoutInflater
 import android.view.View

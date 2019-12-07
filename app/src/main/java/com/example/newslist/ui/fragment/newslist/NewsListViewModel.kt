@@ -1,4 +1,4 @@
-package com.example.newslist.ui.viewmodel
+package com.example.newslist.ui.fragment.newslist
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,9 @@ class NewsListViewModel(private val newsListRepository: BaseRepository<List<Arti
 
     class Factory @Inject constructor(private val newsListRepository: NewsListRepository) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
-            return NewsListViewModel(newsListRepository) as T
+            return NewsListViewModel(
+                newsListRepository
+            ) as T
         }
     }
 
