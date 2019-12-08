@@ -17,9 +17,11 @@ class NewsRecyclerAdapter(
 
     private val newsList = mutableListOf<NewsListViewModel.NewsArticle>()
 
-    fun updateNewsArticles(newsList: List<NewsListViewModel.NewsArticle>) {
+    fun updateNewsArticles(newsList: List<NewsListViewModel.NewsArticle>?) {
         this.newsList.clear()
-        this.newsList.addAll(newsList)
+        newsList?.let {
+            this.newsList.addAll(it)
+        }
         notifyDataSetChanged()
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newslist.R
 import com.example.newslist.di.DIHelper.appComponent
+import com.example.newslist.ui.BaseViewState
 import com.example.newslist.ui.fragment.BaseFragment
 import com.example.newslist.ui.fragment.newsdetail.NewsWebViewFragment
 import kotlinx.android.synthetic.main.fragment_news_list.*
@@ -31,23 +32,37 @@ class NewsListFragment : BaseFragment(), NewsRecyclerAdapter.NewsArticleClickLis
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
         createViewModel()
+        tryAgainBtn.setOnClickListener {
+            vm.fetchTopHeadlines()
+        }
     }
 
     private fun createViewModel() {
         vm = ViewModelProviders.of(this, vmFactory)[NewsListViewModel::class.java]
-        vm.topHeadlinesLiveData.observe(this, Observer {
-            newsRecyclerAdapter.updateNewsArticles(it)
-        })
-        vm.errorLiveData.observe(this, Observer { show ->
-            errorLayout.visibility = if (show) View.VISIBLE else View.GONE
-            tryAgainBtn.setOnClickListener {
-                vm.fetchTopHeadlines()
-            }
-        })
-        vm.showLoaderLiveData.observe(this, Observer { show ->
-            progressBar.visibility = if (show) View.VISIBLE else View.GONE
+        vm.newsListViewState.observe(this, Observer {
+            setViewState(it)
         })
         vm.fetchTopHeadlines()
+    }
+
+    private fun setViewState(viewState: NewsListViewState) {
+        when (viewState.currentViewState) {
+            BaseViewState.ViewState.LOADING -> {
+                progressBar.visibility = View.VISIBLE
+                errorLayout.visibility = View.GONE
+            }
+            BaseViewState.ViewState.SUCCESS -> {
+                newsRecyclerAdapter.updateNewsArticles(viewState.data)
+                newsRecyclerView.visibility = View.VISIBLE
+                errorLayout.visibility = View.GONE
+                progressBar.visibility = View.GONE
+            }
+            BaseViewState.ViewState.ERROR -> {
+                errorLayout.visibility = View.VISIBLE
+                newsRecyclerView.visibility = View.GONE
+                progressBar.visibility = View.GONE
+            }
+        }
     }
 
     private fun setupRecyclerView() {

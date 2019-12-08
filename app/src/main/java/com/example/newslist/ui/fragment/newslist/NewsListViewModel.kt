@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.newslist.model.Article
 import com.example.newslist.repository.BaseRepository
 import com.example.newslist.repository.NewsListRepository
+import com.example.newslist.ui.BaseViewState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,10 +16,7 @@ class NewsListViewModel(private val newsListRepository: BaseRepository<List<Arti
     ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-
-    var topHeadlinesLiveData = MutableLiveData<List<NewsArticle>>()
-    val errorLiveData = MutableLiveData(false)
-    val showLoaderLiveData = MutableLiveData(true)
+    val newsListViewState = MutableLiveData<NewsListViewState>()
 
     class Factory @Inject constructor(private val newsListRepository: NewsListRepository) :
         ViewModelProvider.Factory {
@@ -30,25 +28,35 @@ class NewsListViewModel(private val newsListRepository: BaseRepository<List<Arti
     }
 
     fun fetchTopHeadlines() {
-        if (topHeadlinesLiveData.value?.isEmpty() == false) {
+        val currentViewState = newsListViewState.value?.currentViewState
+        if (currentViewState == BaseViewState.ViewState.SUCCESS) {
             return
         }
-        errorLiveData.value = false
-        showLoaderLiveData.value = true
-
+        newsListViewState.postValue(
+            NewsListViewState(null, BaseViewState.ViewState.LOADING)
+        )
         compositeDisposable.add(
             newsListRepository.getData()
                 .map { convertToViewModel(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
-                    topHeadlinesLiveData.value = it
-                    errorLiveData.value = false
-                    showLoaderLiveData.value = false
+                    onSuccess(it)
                 }, {
-                    errorLiveData.value = true
-                    showLoaderLiveData.value = false
+                    onError(it)
                 })
+        )
+    }
+
+    private fun onSuccess(newsList: List<NewsArticle>) {
+        newsListViewState.postValue(
+            NewsListViewState(newsList, BaseViewState.ViewState.SUCCESS)
+        )
+    }
+
+    private fun onError(error: Throwable) {
+        newsListViewState.postValue(
+            NewsListViewState(null, BaseViewState.ViewState.ERROR, error)
         )
     }
 
