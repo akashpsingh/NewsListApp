@@ -15,9 +15,9 @@ class NewsRecyclerAdapter(
     private val newsArticleClickListener: NewsArticleClickListener
 ) : RecyclerView.Adapter<NewsRecyclerAdapter.ArticleViewHolder>() {
 
-    private val newsList = mutableListOf<Article>()
+    private val newsList = mutableListOf<NewsListViewModel.NewsArticle>()
 
-    fun updateNewsArticles(newsList: List<Article>) {
+    fun updateNewsArticles(newsList: List<NewsListViewModel.NewsArticle>) {
         this.newsList.clear()
         this.newsList.addAll(newsList)
         notifyDataSetChanged()
@@ -46,7 +46,7 @@ class NewsRecyclerAdapter(
         private val articleDescription: TextView = itemView.articleDescriptionText
         private val articleTitle: TextView = itemView.articleTitleText
 
-        fun bind(article: Article) {
+        fun bind(article: NewsListViewModel.NewsArticle) {
             Glide.with(articleImage)
                 .load(article.imageUrl)
                 .placeholder(R.drawable.img_placeholder)

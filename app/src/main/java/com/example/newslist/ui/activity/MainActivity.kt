@@ -11,10 +11,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        if (supportFragmentManager.findFragmentByTag(NewsListFragment.TAG) == null) {
+        val newsListFragment = supportFragmentManager.findFragmentByTag(NewsListFragment.TAG)
+        if (newsListFragment == null) {
             supportFragmentManager.beginTransaction()
-                .add(R.id.fragment_container,
-                    NewsListFragment(), NewsListFragment.TAG)
+                .add(R.id.fragment_container, NewsListFragment(), NewsListFragment.TAG)
                 .commit()
         }
     }

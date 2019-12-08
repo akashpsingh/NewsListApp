@@ -11,15 +11,17 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class NewsListViewModel(private val newsListRepository: BaseRepository<List<Article>>) : ViewModel() {
+class NewsListViewModel(private val newsListRepository: BaseRepository<List<Article>>) :
+    ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
 
-    var topHeadlinesLiveData = MutableLiveData<List<Article>>()
+    var topHeadlinesLiveData = MutableLiveData<List<NewsArticle>>()
     val errorLiveData = MutableLiveData(false)
     val showLoaderLiveData = MutableLiveData(true)
 
-    class Factory @Inject constructor(private val newsListRepository: NewsListRepository) : ViewModelProvider.Factory {
+    class Factory @Inject constructor(private val newsListRepository: NewsListRepository) :
+        ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {
             return NewsListViewModel(
                 newsListRepository
@@ -36,6 +38,7 @@ class NewsListViewModel(private val newsListRepository: BaseRepository<List<Arti
 
         compositeDisposable.add(
             newsListRepository.getData()
+                .map { convertToViewModel(it) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -49,8 +52,26 @@ class NewsListViewModel(private val newsListRepository: BaseRepository<List<Arti
         )
     }
 
+    private fun convertToViewModel(articleDMList: List<Article>): List<NewsArticle> {
+        return articleDMList.map {
+            NewsArticle(
+                it.title,
+                it.description,
+                it.url,
+                it.imageUrl
+            )
+        }
+    }
+
     override fun onCleared() {
         compositeDisposable.dispose()
         super.onCleared()
     }
+
+    data class NewsArticle(
+        val title: String,
+        val description: String?,
+        val url: String,
+        val imageUrl: String?
+    )
 }

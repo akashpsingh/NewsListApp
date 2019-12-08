@@ -1,6 +1,5 @@
 package com.example.newslist.repository
 
-import android.util.Log
 import com.example.newslist.db.NewsDao
 import com.example.newslist.model.Article
 import com.example.newslist.network.NewsService
@@ -17,7 +16,6 @@ class NewsListRepository @Inject constructor(
         return newsService
             .getTopHeadlines()
             .map {
-                Log.v("NewsListRepository", "data fetched from api. saving in db")
                 newsDao.deleteAll()
                 newsDao.insertAll(it.articles)
                 it.articles

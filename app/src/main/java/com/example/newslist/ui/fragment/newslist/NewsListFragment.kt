@@ -62,7 +62,8 @@ class NewsListFragment : BaseFragment(), NewsRecyclerAdapter.NewsArticleClickLis
     override fun onArticleClicked(url: String) {
         activity?.let {
             it.supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container,
+                .replace(
+                    R.id.fragment_container,
                     NewsWebViewFragment.newInstance(
                         url
                     ),
